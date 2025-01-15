@@ -19,7 +19,7 @@ class Microbe:
         self.dest_coordinates_x = 0
         self.dest_coordinates_y = 0
         self.end_point_reached = False
-        self.image = pygame.image.load()  # TODO image lo load
+        self.image = pygame.image.load("D:\\shada\\Documents\\Cells_experiment\\Microbe.png")
 
     def draw(self):
         self.screen.blit(self.image, (self.coordinates_x, self.coordinates_y))
@@ -52,10 +52,17 @@ class Manager:
         return
 
     def draw(self):
+        self.screen.fill((0,0,0))
         for microbe in self.microbes_list:
             microbe.draw()
 
         for food in self.food_list:
             food.draw()
+
+        pygame.display.update()
+
+    def distance_check(self):
+        """check distances between objects in list of objects"""
+        pass
 
 
