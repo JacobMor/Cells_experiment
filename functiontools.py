@@ -17,12 +17,15 @@ class Microbe:
         self.energy = 600
         self.coordinates_x = 250
         self.coordinates_y = 250
-        self.dest_coordinates_x = 50
-        self.dest_coordinates_y = 50
+        self.dest_coordinates_x = 250
+        self.dest_coordinates_y = 250
         self.image = pygame.image.load("D:\\shada\\Documents\\Cells_experiment\\Microbe.png")
+        self.fontObj = pygame.font.Font(None, 18)
 
     def draw(self):
         self.screen.blit(self.image, (self.coordinates_x, self.coordinates_y))
+        text_surface_obj = self.fontObj.render(str(self.energy), True, (255,255,255), None)
+        self.screen.blit(text_surface_obj, (self.coordinates_x, self.coordinates_y-10))
 
     def reached_destination(self):
         if self.coordinates_x == self.dest_coordinates_x and self.coordinates_y == self.dest_coordinates_y:
