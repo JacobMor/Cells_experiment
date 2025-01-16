@@ -2,7 +2,7 @@ import pygame
 import functiontools
 from functiontools import Manager
 
-display_size = (600,400)
+display_size = (1200,600)
 pygame.init()
 screen = pygame.display.set_mode(display_size)
 Clk = pygame.time.Clock()
@@ -15,7 +15,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    man.draw()
+    man.run()
+    Clk.tick(120)
 
 pygame.quit()
 quit()
