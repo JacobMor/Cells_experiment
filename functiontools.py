@@ -76,12 +76,9 @@ class Manager:
             else:
                 self.move(microbe)
             microbe.energy_consumption(1)
+        self.object_kill(self.microbes_list) # delete microbe without energy
         if self.food_list:# actions with food
-            for food in self.food_list:
-                if food.energy <=0:
-                    self.food_list.remove(food)# delete eaten food
-                else:
-                    pass
+            self.object_kill(self.food_list)# delete eaten food
             if self.food_list:
                 for food in self.food_list:
                     food.draw()
@@ -123,3 +120,11 @@ class Manager:
 
     def add_food(self, position: tuple):
         self.food_list.append(Food(self.field, position))
+
+    def object_kill(self,list_of_objects:list):
+        """delete objects if energy is zero"""
+        for element in list_of_objects:
+            if element.energy <= 0:
+                list_of_objects.remove(element)
+            else:
+                pass
