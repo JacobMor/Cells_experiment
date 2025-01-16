@@ -35,6 +35,14 @@ class Microbe:
         self.dest_coordinates_x = randint(10, self.screen_borders[0] - 10)  # new according to screen borders
         self.dest_coordinates_y = randint(10, self.screen_borders[1] - 10)
 
+    def energy_consumption(self, energy: int):
+        """decreases amount of energy"""
+        self.energy -= energy
+
+    def energy_replenishment(self, energy: int):
+        """increases amount of energy"""
+        self.energy += energy
+
 
 class Food(Microbe):
     """Has energy to feed Microbes. """
@@ -61,15 +69,24 @@ class Manager:
 
     def run(self):  # main function contains manager logic
         self.screen.fill((0, 0, 0))
-        self.distance_check(self.microbes_list, self.food_list)
-        for microbe in self.microbes_list:  # checking if someone reached destination
+        self.distance_check(self.microbes_list, self.food_list)# actions with microbes
+        for microbe in self.microbes_list:  # checking if someone reached destination, and moving
             if microbe.reached_destination():
                 microbe.new_random_destination()
             else:
                 self.move(microbe)
-        if self.food_list:
+            microbe.energy_consumption(1)
+        if self.food_list:# actions with food
             for food in self.food_list:
-                food.draw()
+                if food.energy <=0:
+                    self.food_list.remove(food)# delete eaten food
+                else:
+                    pass
+            if self.food_list:
+                for food in self.food_list:
+                    food.draw()
+            else:
+                pass
         pygame.display.update()
 
     def move(self, microbe):
@@ -97,8 +114,12 @@ class Manager:
                                 (f.coordinates_x, f.coordinates_y))) <= 150:
                             microbe.dest_coordinates_x = f.coordinates_x
                             microbe.dest_coordinates_y = f.coordinates_y
+                        if int(self.distance(microbe.coordinates_x, microbe.coordinates_y).distance_to(
+                                (f.coordinates_x, f.coordinates_y))) <=20: # feeding in area of food
+                            microbe.energy_replenishment(20)
+                            f.energy_consumption(20)
                         else:
                             pass
 
-    def add_food(self,position:tuple):
+    def add_food(self, position: tuple):
         self.food_list.append(Food(self.field, position))
