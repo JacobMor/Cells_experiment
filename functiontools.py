@@ -39,12 +39,12 @@ class Microbe:
 class Food(Microbe):
     """Has energy to feed Microbes. """
 
-    def __init__(self, display_size: tuple):
+    def __init__(self, display_size: tuple, coordinates: tuple):
         super().__init__(display_size)
         self.energy = 600
         self.image = pygame.image.load("D:\\shada\\Documents\\Cells_experiment\\Food.png")
-        self.coordinates_x = randint(10, display_size[0] - 10)
-        self.coordinates_y = randint(10, display_size[1] - 10)
+        self.coordinates_x = coordinates[0]
+        self.coordinates_y = coordinates[1]
 
 
 class Manager:
@@ -55,8 +55,9 @@ class Manager:
         self.microbes_list = [Microbe(display_size), Microbe(display_size), Microbe(display_size),
                               Microbe(display_size), Microbe(display_size), Microbe(display_size),
                               Microbe(display_size)]
-        self.food_list = [Food(display_size)]
+        self.food_list = []
         self.distance = pygame.math.Vector2
+        self.field = display_size
 
     def run(self):  # main function contains manager logic
         self.screen.fill((0, 0, 0))
@@ -98,3 +99,6 @@ class Manager:
                             microbe.dest_coordinates_y = f.coordinates_y
                         else:
                             pass
+
+    def add_food(self,position:tuple):
+        self.food_list.append(Food(self.field, position))

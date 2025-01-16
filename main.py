@@ -1,4 +1,5 @@
 import pygame
+from pygame import mouse
 import functiontools
 from functiontools import Manager
 
@@ -14,6 +15,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            man.add_food(position=pygame.mouse.get_pos())
 
     man.run()
     Clk.tick(120)
