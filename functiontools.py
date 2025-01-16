@@ -60,7 +60,7 @@ class Manager:
 
     def run(self):  # main function contains manager logic
         self.screen.fill((0, 0, 0))
-        self.distance_check(self.microbes_list,self.food_list)
+        self.distance_check(self.microbes_list, self.food_list)
         for microbe in self.microbes_list:  # checking if someone reached destination
             if microbe.reached_destination():
                 microbe.new_random_destination()
@@ -92,5 +92,9 @@ class Manager:
             if food:
                 for microbe in microbes:
                     for f in food:
-                        print(int(self.distance(microbe.coordinates_x, microbe.coordinates_y).distance_to((f.coordinates_x, f.coordinates_y))))
-        pass
+                        if int(self.distance(microbe.coordinates_x, microbe.coordinates_y).distance_to(
+                                (f.coordinates_x, f.coordinates_y))) <= 150:
+                            microbe.dest_coordinates_x = f.coordinates_x
+                            microbe.dest_coordinates_y = f.coordinates_y
+                        else:
+                            pass
