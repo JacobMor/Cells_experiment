@@ -32,8 +32,8 @@ class Microbe:
 
     def new_random_destination(self):
         """function choosing new random coordinates, x,y"""
-        self.dest_coordinates_x = randint(10, self.screen_borders[0] - 10)  # new coord -10 by x
-        self.dest_coordinates_y = randint(10, self.screen_borders[1] - 10)  # new coord -10 by y
+        self.dest_coordinates_x = randint(10, self.screen_borders[0] - 10)  # new according to screen borders
+        self.dest_coordinates_y = randint(10, self.screen_borders[1] - 10)
 
 
 class Food(Microbe):
@@ -56,15 +56,19 @@ class Manager:
                               Microbe(display_size), Microbe(display_size), Microbe(display_size),
                               Microbe(display_size)]
         self.food_list = [Food(display_size)]
-        self.action_list = []  # list that accepts objects for interaction(changing destination)
+        self.distance = pygame.math.Vector2
 
     def run(self):  # main function contains manager logic
         self.screen.fill((0, 0, 0))
+        self.distance_check(self.microbes_list,self.food_list)
         for microbe in self.microbes_list:  # checking if someone reached destination
             if microbe.reached_destination():
                 microbe.new_random_destination()
             else:
                 self.move(microbe)
+        if self.food_list:
+            for food in self.food_list:
+                food.draw()
         pygame.display.update()
 
     def move(self, microbe):
@@ -82,6 +86,11 @@ class Manager:
             pass
         microbe.draw()
 
-    def distance_check(self):
+    def distance_check(self, microbes: list, food: list):
         """check distances between objects in list of objects"""
+        if microbes:
+            if food:
+                for microbe in microbes:
+                    for f in food:
+                        print(int(self.distance(microbe.coordinates_x, microbe.coordinates_y).distance_to((f.coordinates_x, f.coordinates_y))))
         pass
