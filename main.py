@@ -19,7 +19,7 @@ while running:
             man.add_food(position=pygame.mouse.get_pos())
 
     man.run()
-    Clk.tick(120)
+    Clk.tick(30)
 
 pygame.quit()
 quit()

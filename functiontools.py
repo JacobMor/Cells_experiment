@@ -1,5 +1,6 @@
 import pygame
 from random import randint
+import logic
 
 
 class Microbe:
@@ -10,6 +11,7 @@ class Microbe:
     def __init__(self, display_size: tuple, coordinates: tuple = (250, 250)):
         """
 
+        :type coordinates: start coordinates
         :type display_size: Ranges move coordinates
         """
         self.screen = pygame.display.set_mode(display_size)
@@ -20,10 +22,11 @@ class Microbe:
         self.dest_coordinates_x = 250
         self.dest_coordinates_y = 250
         self.image = pygame.image.load("D:\\shada\\Documents\\Cells_experiment\\Microbe.png")
-        self.fontObj = pygame.font.Font(None, 18)
+        self.fontObj = pygame.font.Font(None, 18) # for text above microbe and food
 
     def draw(self):
         self.screen.blit(self.image, (self.coordinates_x, self.coordinates_y))
+        # energy above each microbe
         text_surface_obj = self.fontObj.render(str(self.energy), True, (255, 255, 255), None)
         self.screen.blit(text_surface_obj, (self.coordinates_x, self.coordinates_y - 10))  # energy display
 
@@ -37,6 +40,7 @@ class Microbe:
         """function choosing new random coordinates, x,y"""
         self.dest_coordinates_x = randint(10, self.screen_borders[0] - 10)  # new according to screen borders
         self.dest_coordinates_y = randint(10, self.screen_borders[1] - 10)
+        self.draw()
 
     def energy_consumption(self, energy: int):
         """decreases amount of energy"""
@@ -63,16 +67,14 @@ class Manager:
 
     def __init__(self, display_size: tuple):
         self.screen = pygame.display.set_mode(display_size)
-        self.microbes_list = [Microbe(display_size), Microbe(display_size), Microbe(display_size),
-                              Microbe(display_size), Microbe(display_size), Microbe(display_size),
-                              Microbe(display_size)]
+        self.microbes_list = [Microbe(display_size)]
         self.food_list = []
         self.distance = pygame.math.Vector2
         self.field = display_size
 
     def run(self):  # main function contains manager logic
         self.screen.fill((0, 0, 0))
-        self.distance_check(self.microbes_list, self.food_list)  # actions with microbes
+        self.distance_check(self.microbes_list, self.food_list)  # check distance to food
         for microbe in self.microbes_list:  # checking if someone reached destination, and moving
             if microbe.reached_destination():
                 microbe.new_random_destination()
@@ -105,7 +107,7 @@ class Manager:
         microbe.draw()
 
     def distance_check(self, microbes: list, food: list):
-        """check distances between objects in list of objects"""
+        """check distances between objects in list of objects, adds energy, takes energy, activates cell add"""
         if microbes:
             if food:
                 for microbe in microbes:
