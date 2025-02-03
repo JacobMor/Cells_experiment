@@ -1,8 +1,21 @@
-import pygame
+# dictionary of available actions
+actions_dict ={}
 
-pygame.sprite.spritecollideany()
-def distance_between_microbes(microbes_list: list):
-    """check distance, if below num, returns True"""
-    for microbe in microbes_list:
-        return microbe.coordinates_x, microbe.coordinates_y
+def move():
+    pass
 
+def standby():
+    pass
+
+def if_someone_near():
+    pass
+
+def food_request():
+    pass
+
+def food_transmission():
+    pass
+
+def choose_action():
+    """logic of probability of action"""
+    pass
